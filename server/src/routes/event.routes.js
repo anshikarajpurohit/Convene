@@ -151,4 +151,25 @@ router.get(
   })
 );
 
+const manualAttendanceSchema = z.object({
+  id: objectIdSchema,
+  regId: objectIdSchema
+});
+
+const attendanceBodySchema = z.object({
+  attended: z.boolean()
+});
+
+// 12. PATCH /events/:id/registrations/:regId/attendance (owner, admin)
+router.patch(
+  '/:id/registrations/:regId/attendance',
+  authenticate,
+  requireRole('organizer', 'admin'),
+  validate({ params: manualAttendanceSchema, body: attendanceBodySchema }),
+  asyncHandler(async (req, res, next) => {
+    const { updateAttendanceManual } = await import('../controllers/attendance.controller.js');
+    return updateAttendanceManual(req, res, next);
+  })
+);
+
 export default router;

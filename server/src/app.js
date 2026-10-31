@@ -12,6 +12,7 @@ import authRoutes from './routes/auth.routes.js';
 import eventRoutes from './routes/event.routes.js';
 import adminRoutes from './routes/admin.routes.js';
 import registrationRoutes from './routes/registration.routes.js';
+import attendanceRoutes from './routes/attendance.routes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -58,6 +59,7 @@ app.get('/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/registrations', registrationRoutes);
+app.use('/api/attendance', attendanceRoutes);
 app.use('/api/admin', adminRoutes);
 
 // Placeholder mounts for upcoming phases will be attached here

@@ -14,6 +14,8 @@ import { OrganizerEventsPage } from './pages/OrganizerEventsPage.jsx';
 import { OrganizerEventFormPage } from './pages/OrganizerEventFormPage.jsx';
 import { DashboardPage } from './pages/DashboardPage.jsx';
 
+import { OrganizerManagePage } from './pages/OrganizerManagePage.jsx';
+
 // Guest-only route wrapper so logged in users don't see login/signup
 function GuestRoute({ children }) {
   const { user, loading } = useAuth();
@@ -88,9 +90,7 @@ export function AppContent() {
             path="/organizer/events/:id/manage"
             element={
               <ProtectedRoute roles={['organizer', 'admin']}>
-                <div className="max-w-7xl mx-auto px-4 py-8">
-                  <h1 className="text-2xl font-bold">Manage Event</h1>
-                </div>
+                <OrganizerManagePage />
               </ProtectedRoute>
             }
           />
