@@ -172,4 +172,61 @@ router.patch(
   })
 );
 
+const feedbackSchema = z.object({
+  rating: z.coerce.number().int().min(1).max(5),
+  comment: z.string().trim().max(1000).optional()
+});
+
+// 13. POST /events/:id/feedback (auth)
+router.post(
+  '/:id/feedback',
+  authenticate,
+  validate({ params: idParamSchema, body: feedbackSchema }),
+  asyncHandler(async (req, res, next) => {
+    const { createFeedback } = await import('../controllers/feedback.controller.js');
+    return createFeedback(req, res, next);
+  })
+);
+
+// 14. GET /events/:id/feedback (owner, admin)
+router.get(
+  '/:id/feedback',
+  authenticate,
+  requireRole('organizer', 'admin'),
+  validate({ params: idParamSchema }),
+  asyncHandler(async (req, res, next) => {
+    const { getEventFeedback } = await import('../controllers/feedback.controller.js');
+    return getEventFeedback(req, res, next);
+  })
+);
+
+const uploadResourceSchema = z.object({
+  title: z.string().trim().min(2).max(120)
+});
+
+// 15. POST /events/:id/resources (owner, admin)
+router.post(
+  '/:id/resources',
+  authenticate,
+  requireRole('organizer', 'admin'),
+  validate({ params: idParamSchema }),
+  (await import('../middleware/upload.js')).uploadResource,
+  validate({ body: uploadResourceSchema }),
+  asyncHandler(async (req, res, next) => {
+    const { uploadEventResource } = await import('../controllers/resource.controller.js');
+    return uploadEventResource(req, res, next);
+  })
+);
+
+// 16. GET /events/:id/resources (owner, admin, confirmed registrant)
+router.get(
+  '/:id/resources',
+  authenticate,
+  validate({ params: idParamSchema }),
+  asyncHandler(async (req, res, next) => {
+    const { getEventResources } = await import('../controllers/resource.controller.js');
+    return getEventResources(req, res, next);
+  })
+);
+
 export default router;

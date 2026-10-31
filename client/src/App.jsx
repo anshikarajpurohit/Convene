@@ -16,6 +16,8 @@ import { DashboardPage } from './pages/DashboardPage.jsx';
 
 import { OrganizerManagePage } from './pages/OrganizerManagePage.jsx';
 
+import { AdminPage } from './pages/AdminPage.jsx';
+
 // Guest-only route wrapper so logged in users don't see login/signup
 function GuestRoute({ children }) {
   const { user, loading } = useAuth();
@@ -99,9 +101,7 @@ export function AppContent() {
             path="/admin"
             element={
               <ProtectedRoute roles={['admin']}>
-                <div className="max-w-7xl mx-auto px-4 py-8">
-                  <h1 className="text-2xl font-bold">Admin Console</h1>
-                </div>
+                <AdminPage />
               </ProtectedRoute>
             }
           />
