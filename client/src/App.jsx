@@ -9,6 +9,9 @@ import { HomePage } from './pages/HomePage.jsx';
 import { LoginPage } from './pages/LoginPage.jsx';
 import { SignupPage } from './pages/SignupPage.jsx';
 import { NotFoundPage } from './pages/NotFoundPage.jsx';
+import { EventDetailPage } from './pages/EventDetailPage.jsx';
+import { OrganizerEventsPage } from './pages/OrganizerEventsPage.jsx';
+import { OrganizerEventFormPage } from './pages/OrganizerEventFormPage.jsx';
 
 // Guest-only route wrapper so logged in users don't see login/signup
 function GuestRoute({ children }) {
@@ -26,6 +29,7 @@ export function AppContent() {
         <Routes>
           {/* Public routes */}
           <Route path="/" element={<HomePage />} />
+          <Route path="/events/:id" element={<EventDetailPage />} />
 
           {/* Guest routes */}
           <Route
@@ -61,8 +65,32 @@ export function AppContent() {
             path="/organizer"
             element={
               <ProtectedRoute roles={['organizer', 'admin']}>
+                <OrganizerEventsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/organizer/events/new"
+            element={
+              <ProtectedRoute roles={['organizer', 'admin']}>
+                <OrganizerEventFormPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/organizer/events/:id/edit"
+            element={
+              <ProtectedRoute roles={['organizer', 'admin']}>
+                <OrganizerEventFormPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/organizer/events/:id/manage"
+            element={
+              <ProtectedRoute roles={['organizer', 'admin']}>
                 <div className="max-w-7xl mx-auto px-4 py-8">
-                  <h1 className="text-2xl font-bold">Organizer Studio</h1>
+                  <h1 className="text-2xl font-bold">Manage Event</h1>
                 </div>
               </ProtectedRoute>
             }
