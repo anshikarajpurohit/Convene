@@ -12,6 +12,7 @@ import { NotFoundPage } from './pages/NotFoundPage.jsx';
 import { EventDetailPage } from './pages/EventDetailPage.jsx';
 import { OrganizerEventsPage } from './pages/OrganizerEventsPage.jsx';
 import { OrganizerEventFormPage } from './pages/OrganizerEventFormPage.jsx';
+import { DashboardPage } from './pages/DashboardPage.jsx';
 
 // Guest-only route wrapper so logged in users don't see login/signup
 function GuestRoute({ children }) {
@@ -49,14 +50,12 @@ export function AppContent() {
             }
           />
 
-          {/* Placeholders for upcoming phases */}
+          {/* Attendee Dashboard */}
           <Route
             path="/dashboard"
             element={
               <ProtectedRoute>
-                <div className="max-w-7xl mx-auto px-4 py-8">
-                  <h1 className="text-2xl font-bold">My Registrations</h1>
-                </div>
+                <DashboardPage />
               </ProtectedRoute>
             }
           />

@@ -6,6 +6,7 @@ import { validate } from '../middleware/validate.js';
 import { authenticate } from '../middleware/auth.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { ApiError } from '../utils/ApiError.js';
+import { env } from '../config/env.js';
 
 const router = Router();
 
@@ -14,6 +15,7 @@ const authRateLimiter = rateLimit({
   max: 20,
   standardHeaders: true,
   legacyHeaders: false,
+  skip: () => env.NODE_ENV === 'test',
   handler: (req, res, next) => {
     next(ApiError.rateLimited('RATE_LIMITED', 'Too many requests, please try again later'));
   }

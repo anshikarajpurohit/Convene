@@ -117,4 +117,38 @@ router.get(
   asyncHandler(getEventStats)
 );
 
+// 9. POST /events/:id/register (auth)
+router.post(
+  '/:id/register',
+  authenticate,
+  validate({ params: idParamSchema }),
+  asyncHandler(async (req, res, next) => {
+    const { register } = await import('../controllers/registration.controller.js');
+    return register(req, res, next);
+  })
+);
+
+// 10. DELETE /events/:id/register (auth)
+router.delete(
+  '/:id/register',
+  authenticate,
+  validate({ params: idParamSchema }),
+  asyncHandler(async (req, res, next) => {
+    const { cancel } = await import('../controllers/registration.controller.js');
+    return cancel(req, res, next);
+  })
+);
+
+// 11. GET /events/:id/registrations (owner, admin)
+router.get(
+  '/:id/registrations',
+  authenticate,
+  requireRole('organizer', 'admin'),
+  validate({ params: idParamSchema }),
+  asyncHandler(async (req, res, next) => {
+    const { getEventRegistrations } = await import('../controllers/registration.controller.js');
+    return getEventRegistrations(req, res, next);
+  })
+);
+
 export default router;
