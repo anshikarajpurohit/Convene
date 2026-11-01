@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
+    "mongo": "node src/scripts/start-mongo.js",
     "seed": "node src/scripts/seed.js",
     "test": "vitest run"
   },
