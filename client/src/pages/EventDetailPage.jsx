@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import { fetchEventById } from '../api/events.js';
+import { registerForEvent, cancelRegistration } from '../api/registrations.js';
 import { useAuth } from '../context/AuthContext.jsx';
 import { StatusBadge } from '../components/StatusBadge.jsx';
 import { formatDate } from '../components/EventCard.jsx';
@@ -59,8 +60,6 @@ export function EventDetailPage() {
 
     setRegistering(true);
     try {
-      // Dynamic import or direct registration call
-      const { registerForEvent } = await import('../api/registrations.js');
       const res = await registerForEvent(id);
       if (res.success) {
         toast.success(
@@ -80,7 +79,6 @@ export function EventDetailPage() {
   const handleCancelRegistration = async () => {
     setCancelling(true);
     try {
-      const { cancelRegistration } = await import('../api/registrations.js');
       const res = await cancelRegistration(id);
       if (res.success) {
         toast.success('Registration cancelled');

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchMyRegistrations, cancelRegistration, fetchRegistrationQr, fetchCertificate } from '../api/registrations.js';
+import { submitFeedback } from '../api/feedback.js';
+import { fetchEventResources, downloadResource } from '../api/resources.js';
 import { StatusBadge } from '../components/StatusBadge.jsx';
 import { formatDate } from '../components/EventCard.jsx';
 import { Spinner } from '../components/Spinner.jsx';
@@ -130,7 +132,6 @@ export function DashboardPage() {
 
     setSubmittingFeedback(true);
     try {
-      const { submitFeedback } = await import('../api/feedback.js');
       const res = await submitFeedback(feedbackEventId, { rating, comment });
       if (res.success) {
         toast.success('Thank you for your feedback!');
@@ -149,7 +150,6 @@ export function DashboardPage() {
     setLoadingResources(true);
     setCurrentEventResources([]);
     try {
-      const { fetchEventResources } = await import('../api/resources.js');
       const res = await fetchEventResources(reg.event._id);
       if (res.success) {
         setCurrentEventResources(res.data || []);
@@ -163,7 +163,6 @@ export function DashboardPage() {
 
   const handleDownloadResource = async (resourceId, originalName) => {
     try {
-      const { downloadResource } = await import('../api/resources.js');
       const res = await downloadResource(resourceId);
       const url = window.URL.createObjectURL(new Blob([res.data]));
       const link = document.createElement('a');
